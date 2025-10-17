@@ -1,0 +1,16 @@
+@Restaurants.API_HostAddress = https://localhost:7046
+
+GET {{Restaurants.API_HostAddress}}/api/weatherforecast
+
+###
+
+@n=5
+POST {{Restaurants.API_HostAddress}}/api/weatherforecast/range?n={{n}}
+Content-Type: application/json
+
+{
+  "Min" : -5,
+  "Max" : -66
+}
+
+###
