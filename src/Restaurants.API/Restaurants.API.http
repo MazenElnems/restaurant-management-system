@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "Min" : -5,
-  "Max" : -66
+  "Max" : 46
 }
 
 ###
