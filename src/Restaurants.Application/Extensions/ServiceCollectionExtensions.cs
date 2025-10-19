@@ -29,6 +29,14 @@ public static class ServiceCollectionExtensions
                 .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.Address.Street))
                 .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City));
+
+            conf.CreateMap<CreateRestaurantDto, Restaurant>()
+                .ForMember(r => r.Address, opt => opt.MapFrom(dto => new Address
+                {
+                    City = dto.City,
+                    Street = dto.Street,
+                    PostalCode = dto.PostalCode,
+                }));
         });
         return services;
     }

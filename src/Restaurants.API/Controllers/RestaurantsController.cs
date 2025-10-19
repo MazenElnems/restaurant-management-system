@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Resaurants.DTOs;
 using Restaurants.Application.Resaurants.Services.Interfaces;
-using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
 {
@@ -33,6 +31,26 @@ namespace Restaurants.API.Controllers
                 return NotFound(new {message = "Invalid restaurant id"});
 
             return restaurant;
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateRestaurantDto dto)
+        {
+            int id = await _restaurantsService.CreateRestaurantAsync(dto);
+            var restaurant = new
+            {
+                id,
+                dto.Name,
+                dto.Description,
+                dto.HasDelivery,
+                dto.ContactEmail,
+                dto.ContactNumber,
+                dto.City,
+                dto.Street,
+                dto.PostalCode
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id }, restaurant);
         }
     }
 }
