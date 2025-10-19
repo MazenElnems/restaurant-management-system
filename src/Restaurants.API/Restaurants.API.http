@@ -9,3 +9,22 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  "name": "A",
+  "description": "Family-owned Italian restaurant offering wood-fired pizzas and pasta.",
+  "hasDelivery": true,
+  "contactEmail": "contact@pizzatown.com",
+  "contactNumber": "01234567890",
+  "city": "Cairo",
+  "street": "El-Tahrir Street",
+  "postalCode": "11511"
+}
+
+
+
+
+###
