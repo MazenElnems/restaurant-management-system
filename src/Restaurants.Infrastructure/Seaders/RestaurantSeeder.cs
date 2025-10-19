@@ -3,7 +3,7 @@ using Restaurants.Infrastructure.Data;
 
 namespace Restaurants.Infrastructure.Seaders;
 
-public class RestaurantSeeder : IRestaurantSeeder
+internal class RestaurantSeeder : IRestaurantSeeder
 {
     private readonly RestaurantDbContext _db;
 
