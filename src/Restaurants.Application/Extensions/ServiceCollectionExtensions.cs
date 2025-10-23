@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Restaurants.Application.Dishes.DTOs;
-using Restaurants.Application.Resaurants.DTOs;
-using Restaurants.Application.Resaurants.Services;
-using Restaurants.Application.Resaurants.Services.Interfaces;
+using Restaurants.Application.Commands.Restaurants.CraeteCommands;
+using Restaurants.Application.Commands.Restaurants.UpdateCommands;
+using Restaurants.Application.DTOs.Categories;
+using Restaurants.Application.DTOs.Dishes;
+using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Extensions;
@@ -11,7 +12,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<IRestaurantsService, RestaurantsService>();
+        var assembly = typeof(ServiceCollectionExtensions).Assembly;
+
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddAutoMapper(conf =>
         {
             conf.CreateMap<Dish, DishDto>();
@@ -30,7 +33,7 @@ public static class ServiceCollectionExtensions
                 .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City));
 
-            conf.CreateMap<CreateRestaurantDto, Restaurant>()
+            conf.CreateMap<CreateRestaurantCommand, Restaurant>()
                 .ForMember(r => r.Address, opt => opt.MapFrom(dto => new Address
                 {
                     City = dto.City,
