@@ -1,11 +1,11 @@
 @Restaurants.API_HostAddress = https://localhost:7046
+@id=10
 
 
 GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-@id=2
 GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
@@ -14,8 +14,8 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-  "name": "A",
-  "description": "Family-owned Italian restaurant offering wood-fired pizzas and pasta.",
+  "name": "Test",
+  "description": "Demo Restaurant",
   "hasDelivery": true,
   "contactEmail": "contact@pizzatown.com",
   "contactNumber": "01234567890",
@@ -26,5 +26,26 @@ Content-Type: application/json
 
 
 
+
+###
+
+
+PUT {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Demo - Updated",
+  "description": "Demo Demo - Updated",
+  "hasDelivery": true,
+  "contactEmail": "contactDemo@pizzatown.com",
+  "contactNumber": "01234567810",
+  "city": "Dameitta11",
+  "street": "El-Tahrir Street - Updated",
+  "postalCode": "11223"
+}
+
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###

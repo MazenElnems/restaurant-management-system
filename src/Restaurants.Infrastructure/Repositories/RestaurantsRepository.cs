@@ -17,7 +17,7 @@ internal class RestaurantsRepository : IRestaurantsRepository
     public async Task<int> AddAsync(Restaurant entity)
     {
         _db.Add(entity);
-        await _db.SaveChangesAsync(); 
+        await CommitAsync();
         return entity.Id;
     }
 
@@ -32,5 +32,16 @@ internal class RestaurantsRepository : IRestaurantsRepository
             .Include(r => r.Categories)
             .ThenInclude(c => c.Dishes)
             .FirstOrDefaultAsync(r => r.Id == id);
+    }
+
+    public async Task<int> CommitAsync()
+    {
+        return await _db.SaveChangesAsync();
+    }
+
+    public async Task<int> DeleteAsync(Restaurant entity)
+    {
+        _db.Remove(entity);
+        return await CommitAsync();
     }
 }

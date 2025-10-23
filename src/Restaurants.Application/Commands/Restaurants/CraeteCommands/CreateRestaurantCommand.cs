@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
-namespace Restaurants.Application.Resaurants.DTOs;
+namespace Restaurants.Application.Commands.Restaurants.CraeteCommands;
 
-public class CreateRestaurantDto
+public class CreateRestaurantCommand : IRequest<int>
 {
+
     [Required(ErrorMessage = "Restaurant name is required.")]
     [StringLength(30, ErrorMessage = "Restaurant name must not exceed 30 characters.")]
     public string Name { get; set; }

@@ -1,6 +1,7 @@
-﻿using Restaurants.Domain.Entities;
+﻿using Restaurants.Application.DTOs.Categories;
+using Restaurants.Domain.Entities;
 
-namespace Restaurants.Application.Resaurants.DTOs;
+namespace Restaurants.Application.DTOs.Restaurants;
 
 public class RestaurantDto
 {

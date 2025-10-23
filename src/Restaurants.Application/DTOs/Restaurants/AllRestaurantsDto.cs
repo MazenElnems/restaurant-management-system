@@ -1,4 +1,4 @@
-﻿namespace Restaurants.Application.Resaurants.DTOs;
+﻿namespace Restaurants.Application.DTOs.Restaurants;
 
 public class AllRestaurantsDto
 {

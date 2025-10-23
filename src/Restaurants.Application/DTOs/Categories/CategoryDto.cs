@@ -1,6 +1,6 @@
-﻿using Restaurants.Application.Dishes.DTOs;
+﻿using Restaurants.Application.DTOs.Dishes;
 
-namespace Restaurants.Application.Resaurants.DTOs;
+namespace Restaurants.Application.DTOs.Categories;
 
 public class CategoryDto
 {
