@@ -32,6 +32,8 @@ await seeder.SeedAsync();
 
 app.UseCustomExceptionHandler();
 
+app.UseCustomLogginMiddleware();
+
 app.UseSwagger();
 
 app.UseSwaggerUI();
