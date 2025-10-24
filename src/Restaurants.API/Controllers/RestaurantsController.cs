@@ -13,10 +13,12 @@ namespace Restaurants.API.Controllers
     public class RestaurantsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<RestaurantsController> _logger;
 
-        public RestaurantsController(IMediator mediator)
+        public RestaurantsController(IMediator mediator, ILogger<RestaurantsController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
