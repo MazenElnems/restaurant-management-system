@@ -1,3 +1,4 @@
+using Restaurants.API.Middlewares;
 using Restaurants.Application.Extensions;
 using Restaurants.Infrastructure.Extensions;
 using Restaurants.Infrastructure.Seaders;
@@ -28,6 +29,8 @@ var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
 await seeder.SeedAsync();
 
 // Configure the HTTP request pipeline.
+
+app.UseCustomExceptionHandler();
 
 app.UseSwagger();
 
