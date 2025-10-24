@@ -12,7 +12,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<RestaurantDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<RestaurantDbContext>(options => 
+        {
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .EnableSensitiveDataLogging();
+        });
         
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
 

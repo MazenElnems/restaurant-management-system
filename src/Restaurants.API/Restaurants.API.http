@@ -1,5 +1,5 @@
 @Restaurants.API_HostAddress = https://localhost:7046
-@id=10
+@id=5
 
 
 GET {{Restaurants.API_HostAddress}}/api/restaurants
@@ -47,5 +47,29 @@ Content-Type: application/json
 ###
 
 DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants
+
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
