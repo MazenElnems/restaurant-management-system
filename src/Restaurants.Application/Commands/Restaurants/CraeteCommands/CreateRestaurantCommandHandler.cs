@@ -31,7 +31,7 @@ public class CreateRestaurantCommandHandler : IRequestHandler<CreateRestaurantCo
         }
         catch (Exception ex)
         {
-            _logger.LogError("Failed to create restaurant due to exception: {Message}", ex.Message);
+            _logger.LogError(ex,"Failed to create restaurant due to exception");
             throw;
         }
     }

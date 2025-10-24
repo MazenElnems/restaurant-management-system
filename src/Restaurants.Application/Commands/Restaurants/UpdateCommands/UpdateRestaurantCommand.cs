@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Restaurants.Application.Commands.Restaurants.UpdateCommands;
 
-public class UpdateRestaurantCommand : IRequest<bool>
+public class UpdateRestaurantCommand : IRequest
 {
     public int Id { get; set; }
     [Required(ErrorMessage = "Restaurant name is required.")]
