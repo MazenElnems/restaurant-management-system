@@ -14,8 +14,11 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddApplicationServices();
 
-// Serilog 
+// serilog 
 builder.Host.UseSerilog((context, cfg) => cfg.ReadFrom.Configuration(context.Configuration));
+
+// swagger
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -25,6 +28,10 @@ var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
 await seeder.SeedAsync();
 
 // Configure the HTTP request pipeline.
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
