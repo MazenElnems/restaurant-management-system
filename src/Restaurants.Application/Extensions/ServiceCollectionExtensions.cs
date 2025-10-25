@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
-using Restaurants.Application.Commands.Restaurants.UpdateCommands;
-using Restaurants.Application.DTOs.Categories;
-using Restaurants.Application.DTOs.Dishes;
 using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Domain.Entities;
 
@@ -17,18 +14,12 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddAutoMapper(conf =>
         {
-            conf.CreateMap<Dish, DishDto>();
-
-            conf.CreateMap<Category, CategoryDto>()
-                .ForMember(dto => dto.Dishes, opt => opt.MapFrom(src => src.Dishes));
-
-            conf.CreateMap<Restaurant, RestaurantDto>()
+            conf.CreateMap<Restaurant, GetRestaurantByIdDto>()
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City))
                 .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.Address.Street))
-                .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
-                .ForMember(dto => dto.Categories, opt => opt.MapFrom(src => src.Categories));
+                .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode));
 
-            conf.CreateMap<Restaurant, AllRestaurantsDto>()
+            conf.CreateMap<Restaurant, GetAllRestaurantsDto>()
                 .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.Address.Street))
                 .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City));

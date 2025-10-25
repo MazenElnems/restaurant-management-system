@@ -29,8 +29,6 @@ internal class RestaurantsRepository : IRestaurantsRepository
     public async Task<Restaurant?> GetByIdAsync(int id)
     {
         return await _db.Restaurants
-            .Include(r => r.Categories)
-            .ThenInclude(c => c.Dishes)
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
