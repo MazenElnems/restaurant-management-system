@@ -1,6 +1,6 @@
 ﻿namespace Restaurants.Application.DTOs.Restaurants;
 
-public class AllRestaurantsDto
+public class GetAllRestaurantsDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

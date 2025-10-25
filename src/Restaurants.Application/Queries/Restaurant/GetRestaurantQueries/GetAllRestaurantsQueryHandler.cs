@@ -6,7 +6,7 @@ using Restaurants.Domain.RepositoryInterfaces;
 
 namespace Restaurants.Application.Queries.Restaurant.GetRestaurantQueries;
 
-public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQuery, List<AllRestaurantsDto>>
+public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQuery, List<GetAllRestaurantsDto>>
 {
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly IMapper _mapper;
@@ -19,12 +19,12 @@ public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQu
         _logger = logger;
     }
 
-    public async Task<List<AllRestaurantsDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetAllRestaurantsDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var restaurants = await _restaurantsRepository.GetAllAsync();
-            var dto = _mapper.Map<List<AllRestaurantsDto>>(restaurants);
+            var dto = _mapper.Map<List<GetAllRestaurantsDto>>(restaurants);
             return dto;
         }
         catch (Exception ex)
