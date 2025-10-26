@@ -25,7 +25,8 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
     {
         try
         {
-
+            await Task.CompletedTask;
+            return new GetCategoryByIdDto();
         }
         catch(ResourseNotFoundException ex)
         {
