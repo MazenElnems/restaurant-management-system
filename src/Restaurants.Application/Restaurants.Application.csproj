@@ -16,9 +16,4 @@
     <ProjectReference Include="..\Restaurants.Domain\Restaurants.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\Categories\" />
-    <Folder Include="DTOs\Dishes\" />
-  </ItemGroup>
-
 </Project>
