@@ -19,9 +19,8 @@ public static class ServiceCollectionExtensions
         {
             conf.CreateMap<Category, GetAllCategoriesDto>();
 
-            conf.CreateMap<Category, GetCategoryByIdDto>();
-
-            conf.CreateMap<Dish, DishDto>();
+            conf.CreateMap<Category, GetCategoryByIdDto>()
+                .ForMember(dto => dto.DishIds, opt => opt.MapFrom(src => src.Dishes.Select(d => d.Id).ToList()));
 
             conf.CreateMap<CreateCategoryCommand, Category>();
 

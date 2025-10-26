@@ -22,8 +22,8 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GetAllCategoriesDto>>> GetAll(int restaurantId)
     {
-        var dtos = await _mediator.Send(new GetAllCategoriesQuery(restaurantId));
-        return dtos;
+        var dto = await _mediator.Send(new GetAllCategoriesQuery(restaurantId));
+        return dto;
     }
 
     [HttpGet("{id}")]
@@ -54,7 +54,7 @@ public class CategoriesController : ControllerBase
     {
         command.RestaurantId = restaurantId;
         int id = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id }, id);
+        return CreatedAtAction(nameof(GetById), new { id, restaurantId }, id);
     }
 }
 
