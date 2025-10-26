@@ -31,16 +31,23 @@ internal class CategoriesRepository : ICategoriesRepository
         return await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<Category?> GetByIdWithIncludsAsync<T>(int id, Expression<Func<Category, T>> expression)
+    public Task<Category?> GetByIdWithDishesAsync(int id)
     {
-        return await _db.Categories
-            .Include(expression)
+        return _db.Categories
+            .Select(c => new Category
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                Dishes = c.Dishes.Select(d => new Dish { Id = d.Id}).ToList()
+            })
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<List<Category>> GetByRestaurantIdAsync(int restaurantId)
+    public async Task<List<Category>> GetByRestaurantId(int restaurantId)
     {
-        return await _db.Categories.Where(c => c.RestaurantId == restaurantId)
+        return await _db.Categories
+            .Where(c => c.RestaurantId == restaurantId)
             .ToListAsync();
     }
 }

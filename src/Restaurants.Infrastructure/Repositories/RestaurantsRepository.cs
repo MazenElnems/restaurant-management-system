@@ -2,7 +2,6 @@
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.RepositoryInterfaces;
 using Restaurants.Infrastructure.Data;
-using System.Linq.Expressions;
 
 namespace Restaurants.Infrastructure.Repositories;
 
@@ -24,7 +23,9 @@ internal class RestaurantsRepository : IRestaurantsRepository
 
     public async Task<List<Restaurant>> GetAllAsync()
     {
-        return await _db.Restaurants.ToListAsync();
+        return await _db.Restaurants
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<Restaurant?> GetByIdAsync(int id)
@@ -44,38 +45,8 @@ internal class RestaurantsRepository : IRestaurantsRepository
         return await CommitAsync();
     }
 
-    public async Task<bool> ExistsAsync(int id)
+    public async Task<bool> Exists(int id)
     {
         return await _db.Restaurants.AnyAsync(r => r.Id == id);
-    }
-
-    public async Task<Restaurant?> GetByIdAsync<T>(int id, Expression<Func<Restaurant, T>> includeSelector)
-    {
-        return await _db.Restaurants
-            .Include(includeSelector)
-            .FirstOrDefaultAsync(r => r.Id == id);
-    }
-
-    public async Task<Restaurant?> GetByIdAsync<T>(int id, Expression<Func<Restaurant, T>> includeSelector, Expression<Func<Restaurant, bool>> filter)
-    {
-        return await _db.Restaurants
-            .Include(includeSelector)
-            .FirstOrDefaultAsync(r => r.Id == id);
-    }
-
-    public async Task<Restaurant?> GetRestaurantWithCategoriesAsync(int id)
-    {
-        return await GetRestaurantWithCategoriesAsync(id, c => true);
-    }
-
-    public async Task<Restaurant?> GetRestaurantWithCategoriesAsync(int id, Expression<Func<Category, bool>> categoryFilter, bool includeDishes = false)
-    {
-        var query =  _db.Restaurants
-            .Include(r => r.Categories.AsQueryable().Where(categoryFilter));
-
-        if(includeDishes)
-            query.ThenInclude(c => c.Dishes);
-
-        return await query.FirstOrDefaultAsync(r => r.Id == id);
     }
 }

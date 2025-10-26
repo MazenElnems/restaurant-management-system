@@ -32,6 +32,8 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             restaurant.Categories.Add(category);
             await _restaurantsRepository.CommitAsync();
 
+            _logger.LogInformation("New category created successfully {@Category}", category);
+
             return category.Id;
         }
         catch(ResourseNotFoundException ex)

@@ -26,8 +26,13 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
     {
         try
         {
-            await Task.CompletedTask;
-            return new List<GetAllCategoriesDto>();
+            if(!await _restaurantsRepository.Exists(request.RestaurantId))
+                throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            var categories = await _categoriesRepository.GetByRestaurantId(request.RestaurantId);
+
+            var dto = _mapper.Map<List<GetAllCategoriesDto>>(categories);
+            return dto;
         }
         catch (ResourseNotFoundException ex)
         {

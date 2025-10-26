@@ -11,21 +11,31 @@ namespace Restaurants.Application.Commands.Categories.UpdateCategory;
 
 public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand>
 {
-    private readonly IRestaurantsRepository  _restaurantsRepository;
+    private readonly ICategoriesRepository  _categoriesRepository;
     private readonly ILogger<GetAllCategoriesQueryHandler> _logger;
+    private readonly IRestaurantsRepository _restaurantsRepository;
 
-    public UpdateCategoryCommandHandler(IRestaurantsRepository  restaurantsRepository,ILogger<GetAllCategoriesQueryHandler> logger)
+    public UpdateCategoryCommandHandler(ICategoriesRepository categoriesRepository, ILogger<GetAllCategoriesQueryHandler> logger, IRestaurantsRepository restaurantsRepository)
     {
-        _restaurantsRepository = restaurantsRepository;
+        _categoriesRepository = categoriesRepository;
         _logger = logger;
-    }   
+        _restaurantsRepository = restaurantsRepository;
+    }
 
     public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         try
         {
+            if (!await _restaurantsRepository.Exists(request.RestaurantId))
+                throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
 
-            await Task.CompletedTask;
+            var category = await _categoriesRepository.GetByIdAsync(request.Id)
+                ?? throw new ResourseNotFoundException(nameof(Category), request.Id.ToString()); ;
+
+            category.Name = request.Name;
+            category.Description = request.Description;
+
+            await _categoriesRepository.CommitAsync();
         }
         catch(ResourseNotFoundException ex)
         {
