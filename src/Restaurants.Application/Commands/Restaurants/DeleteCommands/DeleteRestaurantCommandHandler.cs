@@ -27,6 +27,10 @@ public class DeleteRestaurantCommandHandler : IRequestHandler<DeleteRestaurantCo
 
             await _restaurantsRepository.DeleteAsync(restaurant);
         }
+        catch (ResourseNotFoundException ex)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while deleting restaurant ID: {RestaurantId}", request.Id);

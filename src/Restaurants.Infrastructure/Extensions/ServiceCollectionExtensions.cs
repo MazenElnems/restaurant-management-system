@@ -17,11 +17,9 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                    .EnableSensitiveDataLogging();
         });
-        
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
-
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
-
+        services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         return services;
     }
 }

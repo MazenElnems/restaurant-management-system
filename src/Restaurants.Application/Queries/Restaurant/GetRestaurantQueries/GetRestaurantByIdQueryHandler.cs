@@ -30,7 +30,11 @@ public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQu
             var dto = _mapper.Map<GetRestaurantByIdDto>(restaurant);
             return dto;
         }
-        catch(Exception ex)
+        catch (ResourseNotFoundException ex)
+        {
+            throw;
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting restaurant by id {RestaurantId}", request.Id);
             throw;
