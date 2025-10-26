@@ -65,7 +65,7 @@ public class RestaurantDbContext : DbContext
 
         modelBuilder.Entity<Dish>(entity =>
         {
-            entity.ToTable("Dishs");
+            entity.ToTable("Dishes");
 
             entity.HasKey(c => c.Id);
 

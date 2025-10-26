@@ -26,7 +26,8 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
     {
         try
         {
-
+            await Task.CompletedTask;
+            return new List<GetAllCategoriesDto>();
         }
         catch (ResourseNotFoundException ex)
         {

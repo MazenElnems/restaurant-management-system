@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
+using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.Queries.Categories.GetCategories;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.RepositoryInterfaces;
@@ -24,6 +25,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         try
         {
 
+            await Task.CompletedTask;
         }
         catch(ResourseNotFoundException ex)
         {
