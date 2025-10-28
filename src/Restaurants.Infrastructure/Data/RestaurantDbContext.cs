@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain.Entities;
 
 namespace Restaurants.Infrastructure.Data;
 
-public class RestaurantDbContext : DbContext
+public class RestaurantDbContext : IdentityDbContext<ApplicationUser,IdentityRole<int>,int>
 {
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<Dish> Dishes { get; set; }

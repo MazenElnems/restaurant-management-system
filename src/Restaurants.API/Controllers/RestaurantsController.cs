@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
@@ -24,6 +25,7 @@ namespace Restaurants.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AllRestaurantsDto>), StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<AllRestaurantsDto>>> GetAll()
         {
             var restaurants = await _mediator.Send(new GetAllRestaurantsQuery());

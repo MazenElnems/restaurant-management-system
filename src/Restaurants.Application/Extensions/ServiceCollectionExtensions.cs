@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
-using Restaurants.Application.Commands.Restaurants.UpdateCommands;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.DTOs.Dishes;
 using Restaurants.Application.DTOs.Restaurants;
