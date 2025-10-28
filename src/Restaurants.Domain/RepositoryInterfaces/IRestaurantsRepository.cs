@@ -9,4 +9,5 @@ public interface IRestaurantsRepository
     Task<int> AddAsync(Restaurant entity);
     Task<int> CommitAsync();
     Task<int> DeleteAsync(Restaurant entity);
+    Task<bool> Exists(int id);
 }

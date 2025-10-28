@@ -276,7 +276,7 @@ namespace Restaurants.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Dishs", (string)null);
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("Restaurants.Domain.Entities.Restaurant", b =>

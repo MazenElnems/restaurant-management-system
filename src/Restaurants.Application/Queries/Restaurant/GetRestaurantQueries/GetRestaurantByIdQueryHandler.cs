@@ -7,7 +7,7 @@ using Restaurants.Domain.RepositoryInterfaces;
 
 namespace Restaurants.Application.Queries.Restaurant.GetRestaurantQueries;
 
-public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, RestaurantDto>
+public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, GetRestaurantByIdDto>
 {
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly IMapper _mapper;
@@ -20,17 +20,21 @@ public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQu
         _logger = logger;
     }
 
-    public async Task<RestaurantDto> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetRestaurantByIdDto> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var restaurant = await _restaurantsRepository.GetByIdAsync(request.Id)
                 ?? throw new ResourseNotFoundException("Restaurant", request.Id.ToString());
 
-            var dto = _mapper.Map<RestaurantDto>(restaurant);
+            var dto = _mapper.Map<GetRestaurantByIdDto>(restaurant);
             return dto;
         }
-        catch(Exception ex)
+        catch (ResourseNotFoundException ex)
+        {
+            throw;
+        }
+        catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting restaurant by id {RestaurantId}", request.Id);
             throw;

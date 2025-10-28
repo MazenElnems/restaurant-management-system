@@ -34,6 +34,10 @@ public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCo
 
             await _restaurantsRepository.CommitAsync();
         }
+        catch (ResourseNotFoundException ex)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while updating restaurant ID: {RestaurantId}", request.Id);

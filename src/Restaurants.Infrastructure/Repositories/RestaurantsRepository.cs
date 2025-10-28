@@ -23,14 +23,14 @@ internal class RestaurantsRepository : IRestaurantsRepository
 
     public async Task<List<Restaurant>> GetAllAsync()
     {
-        return await _db.Restaurants.ToListAsync();
+        return await _db.Restaurants
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<Restaurant?> GetByIdAsync(int id)
     {
         return await _db.Restaurants
-            .Include(r => r.Categories)
-            .ThenInclude(c => c.Dishes)
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
@@ -43,5 +43,10 @@ internal class RestaurantsRepository : IRestaurantsRepository
     {
         _db.Remove(entity);
         return await CommitAsync();
+    }
+
+    public async Task<bool> Exists(int id)
+    {
+        return await _db.Restaurants.AnyAsync(r => r.Id == id);
     }
 }

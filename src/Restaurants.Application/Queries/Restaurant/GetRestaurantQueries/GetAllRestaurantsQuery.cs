@@ -3,7 +3,7 @@ using Restaurants.Application.DTOs.Restaurants;
 
 namespace Restaurants.Application.Queries.Restaurant.GetRestaurantQueries;
 
-public class GetAllRestaurantsQuery : IRequest<List<AllRestaurantsDto>>
+public class GetAllRestaurantsQuery : IRequest<List<GetAllRestaurantsDto>>
 {
 
 }

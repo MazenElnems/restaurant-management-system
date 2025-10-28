@@ -1,6 +1,6 @@
 @Restaurants.API_HostAddress = https://localhost:7046
-@id=101
-
+@restaurantId=1
+@id=1
 
 GET {{Restaurants.API_HostAddress}}/api/restaurants
 
@@ -14,34 +14,16 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-  "name": "Test",
-  "description": "Demo Restaurant",
-  "hasDelivery": true,
-  "contactEmail": "contact@pizzatown.com",
-  "contactNumber": "01234567890",
-  "city": "Cairo",
-  "street": "El-Tahrir Street",
-  "postalCode": "11511"
+  //CreateRestaurantCommand
 }
 
-
-
-
 ###
-
 
 PUT {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 Content-Type: application/json
 
 {
-  "name": "Demo - Updated",
-  "description": "Demo Demo - Updated",
-  "hasDelivery": true,
-  "contactEmail": "contactDemo@pizzatown.com",
-  "contactNumber": "01234567810",
-  "city": "Dameitta11",
-  "street": "El-Tahrir Street - Updated",
-  "postalCode": "11223"
+  //UpdateRestaurantCommand
 }
 
 ###
@@ -50,26 +32,6 @@ DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
-
-###
-
-GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
-
-###
-
-GET {{Restaurants.API_HostAddress}}/api/restaurants
-
-###
-
-DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
-
-###
-
-DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
-
-###
-
-GET {{Restaurants.API_HostAddress}}/api/restaurants
+GET {{Restaurants.API_HostAddress}}/api/restaurants/{{restaurantId}}/categories
 
 ###

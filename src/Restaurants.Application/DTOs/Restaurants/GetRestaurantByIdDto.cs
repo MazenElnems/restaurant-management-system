@@ -1,9 +1,6 @@
-﻿using Restaurants.Application.DTOs.Categories;
-using Restaurants.Domain.Entities;
+﻿namespace Restaurants.Application.DTOs.Restaurants;
 
-namespace Restaurants.Application.DTOs.Restaurants;
-
-public class RestaurantDto
+public class GetRestaurantByIdDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -12,5 +9,4 @@ public class RestaurantDto
     public string City { get; set; }
     public string Street { get; set; }
     public string PostalCode { get; set; }
-    public List<CategoryDto> Categories { get; set; }
 }

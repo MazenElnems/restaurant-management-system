@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Restaurants.Application.Commands.Categories.CreateCategory;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.DTOs.Dishes;
@@ -16,18 +17,19 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddAutoMapper(conf =>
         {
-            conf.CreateMap<Dish, DishDto>();
+            conf.CreateMap<Category, GetAllCategoriesDto>();
 
-            conf.CreateMap<Category, CategoryDto>()
-                .ForMember(dto => dto.Dishes, opt => opt.MapFrom(src => src.Dishes));
+            conf.CreateMap<Category, GetCategoryByIdDto>()
+                .ForMember(dto => dto.DishIds, opt => opt.MapFrom(src => src.Dishes.Select(d => d.Id).ToList()));
 
-            conf.CreateMap<Restaurant, RestaurantDto>()
+            conf.CreateMap<CreateCategoryCommand, Category>();
+
+            conf.CreateMap<Restaurant, GetRestaurantByIdDto>()
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City))
                 .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.Address.Street))
-                .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
-                .ForMember(dto => dto.Categories, opt => opt.MapFrom(src => src.Categories));
+                .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode));
 
-            conf.CreateMap<Restaurant, AllRestaurantsDto>()
+            conf.CreateMap<Restaurant, GetAllRestaurantsDto>()
                 .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.Address.Street))
                 .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City));
@@ -39,6 +41,7 @@ public static class ServiceCollectionExtensions
                     Street = dto.Street,
                     PostalCode = dto.PostalCode,
                 }));
+
         });
         return services;
     }
