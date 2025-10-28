@@ -4,6 +4,7 @@ using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.DTOs.Dishes;
 using Restaurants.Application.DTOs.Restaurants;
+using Restaurants.Application.Users;
 using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Extensions;
@@ -15,6 +16,8 @@ public static class ServiceCollectionExtensions
         var assembly = typeof(ServiceCollectionExtensions).Assembly;
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+        services.AddScoped<IUserContext, UserContext>();
+        services.AddHttpContextAccessor();
         services.AddAutoMapper(conf =>
         {
             conf.CreateMap<Category, GetAllCategoriesDto>();
