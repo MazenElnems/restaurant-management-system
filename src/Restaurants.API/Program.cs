@@ -47,6 +47,7 @@ app.UseAuthorization();
 app.UseSerilogRequestLogging();
 
 app .MapGroup("api/Identity")
+    .WithTags("Identity")
     .MapIdentityApi<ApplicationUser>();
 
 app.MapControllers();
