@@ -1,9 +1,10 @@
 using Restaurants.API.Extensions;
+using Restaurants.API.Middleware;
 using Restaurants.API.Middlewares;
 using Restaurants.Application.Extensions;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Extensions;
-using Restaurants.Infrastructure.Seaders;
+using Restaurants.Infrastructure.Seeders.Interfaces;
 using Serilog;
 
 
@@ -27,7 +28,7 @@ var app = builder.Build();
 
 // Seed Default Restaurants into DB
 using var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
+var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
 await seeder.SeedAsync();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +42,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

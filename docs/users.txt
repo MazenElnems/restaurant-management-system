@@ -1,0 +1,14 @@
+admins
+[
+  {
+     "email": "mazenelnems22got@gmail.com",
+     "password": "Mazen22!"
+  }
+]
+
+Owners
+{
+  "email": "mohamed@gmail.com",
+  "password": "Mohamed.Password12!"
+}
+

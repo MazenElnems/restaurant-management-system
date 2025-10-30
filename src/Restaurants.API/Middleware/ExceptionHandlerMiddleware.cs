@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using Restaurants.Application.CustomExceptions;
 
-namespace Restaurants.API.Middlewares;
+namespace Restaurants.API.Middleware;
 
 public class ExceptionHandlerMiddleware
 {
@@ -19,6 +19,12 @@ public class ExceptionHandlerMiddleware
         try
         {
             await _next(httpContext);
+        }
+        catch(UnAuthorizedException ex)
+        {
+            _logger.LogError(ex,"UnAuthorizedException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
+            httpContext.Response.StatusCode = 403;
+            await httpContext.Response.WriteAsync(ex.Message);
         }
         catch(InvalidOperationException ex)
         {

@@ -12,11 +12,18 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
+Authorization: Bearer CfDJ8BWCGbbWCbJNsiZSUm7bQlTtpnEg16BZQhc5XZSPZqKx7wDcVQyT7s53hNTjA5PAErklWx3gS1COxVh7ZQXnU8BvVGtRLzbldhRqWptymIejej5-OAk050Hr63C0ZYSk-4UeidaUUeSSwxUyAhyw1Y1PKG4dH8Nlk0hBnAbOxyfq7suui_aic_bjGdSwj49jiy4KjfsmdZlH53ndPuWK_QcK7Swz8X7qHOd7wtjmrh36xVdE_A_lEtw73nOZsTGFhTaLNssOOX0XAFxBUoTf6QPn3mNew_79WYb1968IY8XhE2YAQ2wyl0AmlCYtBcbbdZkNrEcmov5H0Pq896ZzQ09e7MUVWHav_arPQ4mLrieTEB9m6y3RQ6RT0djpl5EHgyRnGiCnlR4t0Y8dXXkb24Mg1nt2acc3cIpEOHSrViFvoeZiTZXchaixy5OSDkSFXwKGhyEMwqMhN4fg6cNkcq8TicGr2faSUg24pr3Vz2o9S3LAlkyHjqCl5Vu2ns4omTeKId_IahVkg-FZgfvQ66pOXOnQjwLhs4EkH_-koiLpcrxtPCfvPDM3zSkra1rULFx7qOzr1W5RtDEbcUvXCHSWDHOJG2NTQy9iqbZwlw8IyR7zUn9_mf6rONb52RhEWFMY_evROHDVu3AmOkAUBM261L7OPSyZeCkSY5Gjo9Y8
 
 {
-  //CreateRestaurantCommand
+  "name": "Demo Restaurant",
+  "description": "Test",
+  "hasDelivery": true,
+  "contactEmail": "user@example.com",
+  "contactNumber": "01030300583",
+  "city": "Damietta",
+  "street": "40 Street",
+  "postalCode": "38822"
 }
-
 ###
 
 PUT {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
