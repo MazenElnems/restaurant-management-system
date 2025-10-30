@@ -1,13 +1,17 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Restaurants.API.Authorization.Constants;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.Commands.Restaurants.DeleteCommands;
 using Restaurants.Application.Commands.Restaurants.UpdateCommands;
 using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Application.Queries.Restaurant.GetRestaurantQueries;
+using Restaurants.Domain.Constants;
 
 namespace Restaurants.API.Controllers;
 
+[Authorize(Policy = AuthorizationPolicies.AtLeast20YearsOldPolicy)]
 [Route("api/[controller]")]
 [ApiController]
 public class RestaurantsController : ControllerBase
@@ -40,6 +44,7 @@ public class RestaurantsController : ControllerBase
     
     [HttpPost]
     [ProducesResponseType(typeof(GetRestaurantByIdDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = UserRoles.Owner, Policy = AuthorizationPolicies.HasNationalityPolicy)]
     public async Task<IActionResult> Post(CreateRestaurantCommand command)
     {
         int id = await _mediator.Send(command);

@@ -1,4 +1,9 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
+using Restaurants.API.Authorization.Claims;
+using Restaurants.API.Authorization.Constants;
+using Restaurants.API.Authorization.Requirements;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Data;
 
@@ -10,9 +15,12 @@ public static class PresentationExtensions
     {
         services.AddControllers();
 
+        // add authentication
         services.AddAuthentication();
 
-        // identity
+        services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementAuthorizationHandler>();
+
+        // identity 
         services.AddIdentityApiEndpoints<ApplicationUser>(cfg =>
         {
             cfg.User.RequireUniqueEmail = true;
@@ -20,7 +28,9 @@ public static class PresentationExtensions
             cfg.Password.RequireNonAlphanumeric = true;
             cfg.Password.RequireUppercase = true;
             cfg.Password.RequireDigit = true;
-        }).AddEntityFrameworkStores<RestaurantDbContext>();
+        }).AddRoles<IdentityRole<int>>()
+          .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
+          .AddEntityFrameworkStores<RestaurantDbContext>();
 
         // swagger
         services.AddEndpointsApiExplorer();
@@ -51,6 +61,20 @@ public static class PresentationExtensions
                     },
                     Array.Empty<string>()
                 }
+            });
+        });
+
+        // add Authorization 
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AuthorizationPolicies.HasNationalityPolicy, policy =>
+            {
+                policy.RequireClaim(DefaultUserClaims.Nationality);
+            });
+
+            options.AddPolicy(AuthorizationPolicies.AtLeast20YearsOldPolicy, policy =>
+            {
+                policy.AddRequirements(new MinimumAgeRequirement(20));
             });
         });
 

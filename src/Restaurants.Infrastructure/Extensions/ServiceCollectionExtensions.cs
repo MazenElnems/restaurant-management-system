@@ -4,7 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Domain.RepositoryInterfaces;
 using Restaurants.Infrastructure.Data;
 using Restaurants.Infrastructure.Repositories;
-using Restaurants.Infrastructure.Seaders;
+using Restaurants.Infrastructure.Seeders;
+using Restaurants.Infrastructure.Seeders.Interfaces;
 
 namespace Restaurants.Infrastructure.Extensions;
 
@@ -17,7 +18,7 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                    .EnableSensitiveDataLogging();
         });
-        services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+        services.AddScoped<IDataSeeder, DataSeeder>();
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
         services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         return services;

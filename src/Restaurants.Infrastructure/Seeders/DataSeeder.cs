@@ -1,13 +1,16 @@
-﻿using Restaurants.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Restaurants.Domain.Constants;
+using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Data;
+using Restaurants.Infrastructure.Seeders.Interfaces;
 
-namespace Restaurants.Infrastructure.Seaders;
+namespace Restaurants.Infrastructure.Seeders;
 
-internal class RestaurantSeeder : IRestaurantSeeder
+internal class DataSeeder : IDataSeeder
 {
     private readonly RestaurantDbContext _db;
 
-    public RestaurantSeeder(RestaurantDbContext db)
+    public DataSeeder(RestaurantDbContext db)
     {
         _db = db;
     }
@@ -22,9 +25,25 @@ internal class RestaurantSeeder : IRestaurantSeeder
                 _db.Restaurants.AddRange(restaurants);
                 await _db.SaveChangesAsync();
             }
+
+            if(!_db.Roles.Any())
+            {
+                var roles = GetRoles();
+                _db.Roles.AddRange(roles);
+                await _db.SaveChangesAsync();
+            }
         }
     }
 
+    private List<IdentityRole<int>> GetRoles()
+    {
+        return new List<IdentityRole<int>>
+        {
+            new IdentityRole<int> { Name = UserRoles.Admin, NormalizedName = UserRoles.Admin.ToUpper() , ConcurrencyStamp = Guid.NewGuid().ToString()},
+            new IdentityRole<int> { Name = UserRoles.Staff, NormalizedName = UserRoles.Staff.ToUpper() , ConcurrencyStamp = Guid.NewGuid().ToString()},
+            new IdentityRole<int> { Name = UserRoles.Owner, NormalizedName = UserRoles.Owner.ToUpper() , ConcurrencyStamp = Guid.NewGuid().ToString()},
+        };
+    }
     private List<Restaurant> GetRestaurants()
     {
         return new List<Restaurant>

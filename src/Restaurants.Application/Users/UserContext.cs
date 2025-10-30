@@ -21,10 +21,16 @@ public class UserContext : IUserContext
             return null;
         }
 
-        var id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
-        var roles = _httpContextAccessor.HttpContext.User.FindAll(ClaimTypes.Role).Select(c => c.Value);
+        var id = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var email = httpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+        var roles = httpContext.User.FindAll(ClaimTypes.Role).Select(c => c.Value);
+        var dateOfBirthClaim = httpContext.User.FindFirst("DateOfBirth")?.Value;
+        var nationality = httpContext.User.FindFirst("Nationality")?.Value;
 
-        return new CurrentUserIdentity(Convert.ToInt32(id), email!, roles);
+        DateOnly? dateOfBirthClaimParsed = dateOfBirthClaim is not null ?
+            DateOnly.Parse(dateOfBirthClaim) :
+            null;
+   
+        return new CurrentUserIdentity(Convert.ToInt32(id), email!, roles, dateOfBirthClaimParsed, nationality);
     }
 }
