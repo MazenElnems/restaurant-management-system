@@ -1,16 +1,13 @@
-﻿namespace Restaurants.Domain.Entities;
+﻿using Restaurants.Domain.Entities;
 
-public class Dish
+namespace Restaurants.Application.DTOs.Dishes;
+
+public class GetAllDishesDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string? Description { get; set; }
     public decimal Price { get; set; }
     public int? KiloCalories { get; set; }
     public bool IsAvailable { get; set; }
-    // Foreign Keys
     public int CategoryId { get; set; }
-
-    // Navigations
-    public Category Category { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Commands.Categories.CreateCategory;
+using Restaurants.Application.Commands.Dishes.CreateDish;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.DTOs.Dishes;
@@ -22,10 +23,17 @@ public static class ServiceCollectionExtensions
         {
             conf.CreateMap<Category, GetAllCategoriesDto>();
 
+            conf.CreateMap<Dish, GetDishDto>();
+
+            conf.CreateMap<CreateCategoryCommand, Category>();
+
+            conf.CreateMap<CreateDishCommand, Dish>();
+            
+            conf.CreateMap<Dish, GetAllDishesDto>();
+
             conf.CreateMap<Category, GetCategoryByIdDto>()
                 .ForMember(dto => dto.DishIds, opt => opt.MapFrom(src => src.Dishes.Select(d => d.Id).ToList()));
 
-            conf.CreateMap<CreateCategoryCommand, Category>();
 
             conf.CreateMap<Restaurant, GetRestaurantByIdDto>()
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City))
@@ -44,7 +52,6 @@ public static class ServiceCollectionExtensions
                     Street = dto.Street,
                     PostalCode = dto.PostalCode,
                 }));
-
         });
         return services;
     }
