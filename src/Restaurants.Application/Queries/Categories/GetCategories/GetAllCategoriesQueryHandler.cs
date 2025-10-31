@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Application.DTOs.Categories;
-using Restaurants.Domain.RepositoryInterfaces;
+using Restaurants.Domain.Enums;
+using Restaurants.Domain.Interfaces;
 
 namespace Restaurants.Application.Queries.Categories.GetCategories;
 
@@ -13,26 +14,37 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
     private readonly ICategoriesRepository _categoriesRepository;
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly ILogger<GetAllCategoriesQueryHandler> _logger;
+    private readonly IRestaurantAuthorizationService _authorizationService;
 
-    public GetAllCategoriesQueryHandler(ICategoriesRepository categoriesRepository, IMapper mapper, ILogger<GetAllCategoriesQueryHandler> logger, IRestaurantsRepository restaurantsRepository)
+    public GetAllCategoriesQueryHandler(ICategoriesRepository categoriesRepository, IMapper mapper, ILogger<GetAllCategoriesQueryHandler> logger, IRestaurantsRepository restaurantsRepository, IRestaurantAuthorizationService authorizationService)
     {
         _categoriesRepository = categoriesRepository;
         _restaurantsRepository = restaurantsRepository;
         _mapper = mapper;
         _logger = logger;
+        _authorizationService = authorizationService;
     }
 
     public async Task<List<GetAllCategoriesDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            if(!await _restaurantsRepository.Exists(request.RestaurantId))
-                throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+            var restaurant = await _restaurantsRepository.GetByIdAsync(request.RestaurantId)
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if(!_authorizationService.Authorize(restaurant, RestaurantOperation.Read))
+                throw new UnAuthorizedException("You are not authorized to access this restaurant's categories.");
+
+            _logger.LogInformation("Getting categories for RestaurantId: {RestaurantId}", request.RestaurantId);
 
             var categories = await _categoriesRepository.GetByRestaurantId(request.RestaurantId);
 
             var dto = _mapper.Map<List<GetAllCategoriesDto>>(categories);
             return dto;
+        }
+        catch (UnAuthorizedException ex)
+        {
+            throw;
         }
         catch (ResourseNotFoundException ex)
         {

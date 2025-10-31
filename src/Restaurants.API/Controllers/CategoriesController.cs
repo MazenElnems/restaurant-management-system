@@ -1,13 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Commands.Categories.CreateCategory;
 using Restaurants.Application.Commands.Categories.DeleteCategory;
 using Restaurants.Application.Commands.Categories.UpdateCategory;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.Queries.Categories.GetCategories;
+using Restaurants.Domain.Constants;
 
 namespace Restaurants.API.Controllers;
 
+[Authorize]
 [Route("api/restaurants/{restaurantId}/[controller]")]
 [ApiController]
 public class CategoriesController : ControllerBase
@@ -34,6 +37,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = UserRoles.Owner)]
     public async Task<IActionResult> Update(int restaurantId, int id, UpdateCategoryCommand command)
     {
         command.Id = id;
@@ -43,6 +47,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = UserRoles.Owner)]
     public async Task<IActionResult> Delete(int restaurantId,int id)
     {
         await _mediator.Send(new DeleteCategoryCommand(id, restaurantId));
@@ -50,6 +55,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.Owner)]
     public async Task<IActionResult> Create(int restaurantId, CreateCategoryCommand command)
     {
         command.RestaurantId = restaurantId;

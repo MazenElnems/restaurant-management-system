@@ -5,7 +5,8 @@ using Restaurants.Application.CustomExceptions;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.Queries.Categories.GetCategories;
 using Restaurants.Domain.Entities;
-using Restaurants.Domain.RepositoryInterfaces;
+using Restaurants.Domain.Enums;
+using Restaurants.Domain.Interfaces;
 
 namespace Restaurants.Application.Commands.Categories.UpdateCategory;
 
@@ -14,30 +15,42 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
     private readonly ICategoriesRepository  _categoriesRepository;
     private readonly ILogger<GetAllCategoriesQueryHandler> _logger;
     private readonly IRestaurantsRepository _restaurantsRepository;
+    private readonly IRestaurantAuthorizationService _authorizationService;
 
-    public UpdateCategoryCommandHandler(ICategoriesRepository categoriesRepository, ILogger<GetAllCategoriesQueryHandler> logger, IRestaurantsRepository restaurantsRepository)
+    public UpdateCategoryCommandHandler(ICategoriesRepository categoriesRepository, ILogger<GetAllCategoriesQueryHandler> logger, IRestaurantsRepository restaurantsRepository, IRestaurantAuthorizationService authorizationService)
     {
         _categoriesRepository = categoriesRepository;
         _logger = logger;
         _restaurantsRepository = restaurantsRepository;
+        _authorizationService = authorizationService;
     }
 
     public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            if (!await _restaurantsRepository.Exists(request.RestaurantId))
-                throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+            var restaurant = await _restaurantsRepository.GetByIdAsync(request.RestaurantId)
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString()); 
+
+            if(!_authorizationService.Authorize(restaurant, RestaurantOperation.Update))
+                throw new UnAuthorizedException("You are not authorized to update category of this restaurant.");
 
             var category = await _categoriesRepository.GetByIdAsync(request.Id)
                 ?? throw new ResourseNotFoundException(nameof(Category), request.Id.ToString()); ;
+
+            _logger.LogInformation("Updating category with id {CategoryId}", request.Id);
 
             category.Name = request.Name;
             category.Description = request.Description;
 
             await _categoriesRepository.CommitAsync();
+            _logger.LogInformation("Category with id {CategoryId} updated successfully", request.Id);
         }
-        catch(ResourseNotFoundException ex)
+        catch(UnAuthorizedException ex)
+        {
+            throw;
+        }
+        catch (ResourseNotFoundException ex)
         {
             throw;
         }

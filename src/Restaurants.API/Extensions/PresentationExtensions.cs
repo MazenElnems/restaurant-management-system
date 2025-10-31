@@ -4,7 +4,9 @@ using Microsoft.OpenApi.Models;
 using Restaurants.API.Authorization.Claims;
 using Restaurants.API.Authorization.Constants;
 using Restaurants.API.Authorization.Requirements;
+using Restaurants.API.Authorization.Services;
 using Restaurants.Domain.Entities;
+using Restaurants.Domain.Interfaces;
 using Restaurants.Infrastructure.Data;
 
 namespace Restaurants.API.Extensions;
@@ -77,6 +79,8 @@ public static class PresentationExtensions
                 policy.AddRequirements(new MinimumAgeRequirement(20));
             });
         });
+
+        services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
 
         return services;
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurants.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Restaurants.Infrastructure.Data;
 namespace Restaurants.Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    partial class RestaurantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251030064058_UseTphStrategyInAspNetUsersTable")]
+    partial class UseTphStrategyInAspNetUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,12 +321,7 @@ namespace Restaurants.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Restaurants", (string)null);
                 });
@@ -424,12 +422,6 @@ namespace Restaurants.Infrastructure.Migrations
 
             modelBuilder.Entity("Restaurants.Domain.Entities.Restaurant", b =>
                 {
-                    b.HasOne("Restaurants.Domain.Entities.Owner", "Owner")
-                        .WithMany("Restaurants")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("Restaurants.Domain.Entities.Address", "Address", b1 =>
                         {
                             b1.Property<int>("RestaurantId")
@@ -463,8 +455,6 @@ namespace Restaurants.Infrastructure.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Restaurants.Domain.Entities.Category", b =>
@@ -475,11 +465,6 @@ namespace Restaurants.Infrastructure.Migrations
             modelBuilder.Entity("Restaurants.Domain.Entities.Restaurant", b =>
                 {
                     b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("Restaurants.Domain.Entities.Owner", b =>
-                {
-                    b.Navigation("Restaurants");
                 });
 #pragma warning restore 612, 618
         }
