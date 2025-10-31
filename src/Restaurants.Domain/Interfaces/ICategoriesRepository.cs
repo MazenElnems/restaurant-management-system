@@ -9,4 +9,5 @@ public interface ICategoriesRepository
     Task<int> DeleteAsync(Category category);
     Task<Category?> GetByIdWithDishesAsync(int id);
     Task<List<Category>> GetByRestaurantId(int restaurantId);
+    Task<bool> Exists(int id);
 }

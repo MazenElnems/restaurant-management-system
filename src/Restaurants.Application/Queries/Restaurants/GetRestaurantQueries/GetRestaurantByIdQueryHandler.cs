@@ -6,7 +6,7 @@ using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Domain.Enums;
 using Restaurants.Domain.Interfaces;
 
-namespace Restaurants.Application.Queries.Restaurant.GetRestaurantQueries;
+namespace Restaurants.Application.Queries.Restaurants.GetRestaurantQueries;
 
 public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, GetRestaurantByIdDto>
 {

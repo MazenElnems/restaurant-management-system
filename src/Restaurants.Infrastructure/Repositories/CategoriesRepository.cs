@@ -26,6 +26,11 @@ internal class CategoriesRepository : ICategoriesRepository
         return await CommitAsync();
     }
 
+    public async Task<bool> Exists(int id)
+    {
+        return await _db.Categories.AnyAsync(c => c.Id == id);
+    }
+
     public async Task<Category?> GetByIdAsync(int id)
     {
         return await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
