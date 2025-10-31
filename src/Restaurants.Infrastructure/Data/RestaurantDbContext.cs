@@ -21,6 +21,13 @@ public class RestaurantDbContext : IdentityDbContext<ApplicationUser,IdentityRol
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<ApplicationUser>()
+            .UseTphMappingStrategy()
+            .HasDiscriminator<string>("UserType")
+            .HasValue<Admin>("Admin")
+            .HasValue<Owner>("Owner")
+            .HasValue<Staff>("Staff");
+
         modelBuilder.Entity<Restaurant>(entity =>
         {
             entity.ToTable("Restaurants");
@@ -45,6 +52,11 @@ public class RestaurantDbContext : IdentityDbContext<ApplicationUser,IdentityRol
                 address.Property(a => a.Street).HasColumnName("Street").HasMaxLength(200);
                 address.Property(a => a.PostalCode).HasColumnName("PostalCode").HasMaxLength(15);
             });
+
+            entity.HasOne(r => r.Owner)
+                  .WithMany(o => o.Restaurants)
+                  .HasForeignKey(r => r.OwnerId)
+                  .IsRequired();
         });
 
         modelBuilder.Entity<Category>(entity =>

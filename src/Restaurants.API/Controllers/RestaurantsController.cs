@@ -11,7 +11,8 @@ using Restaurants.Domain.Constants;
 
 namespace Restaurants.API.Controllers;
 
-[Authorize(Policy = AuthorizationPolicies.AtLeast20YearsOldPolicy)]
+//[Authorize(Policy = AuthorizationPolicies.AtLeast20YearsOldPolicy)]
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class RestaurantsController : ControllerBase
@@ -25,6 +26,7 @@ public class RestaurantsController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetAllRestaurantsDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<GetAllRestaurantsDto>>> GetAll()
@@ -41,11 +43,11 @@ public class RestaurantsController : ControllerBase
         var restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));
         return restaurant;
     }
-    
+
     [HttpPost]
     [ProducesResponseType(typeof(GetRestaurantByIdDto), StatusCodes.Status200OK)]
     [Authorize(Roles = UserRoles.Owner, Policy = AuthorizationPolicies.HasNationalityPolicy)]
-    public async Task<IActionResult> Post(CreateRestaurantCommand command)
+    public async Task<IActionResult> Create(CreateRestaurantCommand command)
     {
         int id = await _mediator.Send(command);
         var restaurant = new
@@ -65,6 +67,7 @@ public class RestaurantsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = UserRoles.Owner)]
     [ProducesResponseType(typeof(GetRestaurantByIdDto), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound, "text/plain")]
     public async Task<IActionResult> Update(int id, UpdateRestaurantCommand command)

@@ -10,6 +10,10 @@ public class Restaurant
     public string? ContactNumber { get; set; }
     public Address Address { get; set; }
 
+    // Foreign Keys
+    public int OwnerId { get; set; }
+
     // Navigations
+    public Owner Owner { get; set; }
     public List<Category> Categories { get; set; } = new List<Category>();
 }

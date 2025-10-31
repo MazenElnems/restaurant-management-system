@@ -3,7 +3,8 @@ using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Application.Queries.Categories.GetCategories;
 using Restaurants.Domain.Entities;
-using Restaurants.Domain.RepositoryInterfaces;
+using Restaurants.Domain.Enums;
+using Restaurants.Domain.Interfaces;
 
 namespace Restaurants.Application.Commands.Categories.DeleteCategory;
 
@@ -12,26 +13,37 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
     private readonly ICategoriesRepository  _categoriesRepository;
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly ILogger<GetAllCategoriesQueryHandler> _logger;
+    private readonly IRestaurantAuthorizationService _authorizationService;
 
-    public DeleteCategoryCommandHandler(ILogger<GetAllCategoriesQueryHandler> logger, ICategoriesRepository categoriesRepository, IRestaurantsRepository restaurantsRepository)
+    public DeleteCategoryCommandHandler(ILogger<GetAllCategoriesQueryHandler> logger, ICategoriesRepository categoriesRepository, IRestaurantsRepository restaurantsRepository, IRestaurantAuthorizationService authorizationService)
     {
         _logger = logger;
         _categoriesRepository = categoriesRepository;
         _restaurantsRepository = restaurantsRepository;
+        _authorizationService = authorizationService;
     }
 
     public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            if (!await _restaurantsRepository.Exists(request.RestaurantId))
-                throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+            var restaurant = await _restaurantsRepository.GetByIdAsync(request.RestaurantId)
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if(!_authorizationService.Authorize(restaurant, RestaurantOperation.Update))
+                throw new UnAuthorizedException("You are not authorized to delete category from this restaurant.");
 
             var category = await _categoriesRepository.GetByIdAsync(request.Id)
                 ?? throw new ResourseNotFoundException(nameof(Category), request.Id.ToString());
 
+            _logger.LogInformation("Deleting Category: {@Category}", category);
+
             await _categoriesRepository.DeleteAsync(category);
             _logger.LogInformation("Category: {@Category} deleted successfully.", category);
+        }
+        catch(UnAuthorizedException ex)
+        {
+            throw;
         }
         catch (ResourseNotFoundException ex)
         {

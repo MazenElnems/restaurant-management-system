@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Restaurants.Domain.RepositoryInterfaces;
+using Restaurants.Domain.Interfaces;
 using Restaurants.Infrastructure.Data;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
