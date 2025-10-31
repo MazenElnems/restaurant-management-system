@@ -6,6 +6,8 @@ using Restaurants.Application.Commands.Dishes.DeleteDish;
 using Restaurants.Application.Commands.Dishes.MoveDishesCommands;
 using Restaurants.Application.Commands.Dishes.UpdateDish;
 using Restaurants.Application.DTOs.Dishes;
+using Restaurants.Application.Queries.Dishes.GetByCategoryIdQueries;
+using Restaurants.Application.Queries.Dishes.GetByIdQueries;
 using Restaurants.Application.Queries.Dishes.GetDishesQueries;
 using Restaurants.Domain.Constants;
 

@@ -6,12 +6,12 @@ using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.Commands.Restaurants.DeleteCommands;
 using Restaurants.Application.Commands.Restaurants.UpdateCommands;
 using Restaurants.Application.DTOs.Restaurants;
+using Restaurants.Application.Queries.Restaurants.GetAllQueries;
 using Restaurants.Application.Queries.Restaurants.GetRestaurantQueries;
 using Restaurants.Domain.Constants;
 
 namespace Restaurants.API.Controllers;
 
-//[Authorize(Policy = AuthorizationPolicies.AtLeast20YearsOldPolicy)]
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]

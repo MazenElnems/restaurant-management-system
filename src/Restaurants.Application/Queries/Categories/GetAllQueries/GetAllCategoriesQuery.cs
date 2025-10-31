@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Restaurants.Application.DTOs.Categories;
 
-namespace Restaurants.Application.Queries.Categories.GetCategories;
+namespace Restaurants.Application.Queries.Categories.GetAllQueries;
 
 public class GetAllCategoriesQuery(int restaurantId) : IRequest<List<GetAllCategoriesDto>> 
 {

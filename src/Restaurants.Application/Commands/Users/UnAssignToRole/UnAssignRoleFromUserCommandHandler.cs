@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Domain.Entities;
 
-namespace Restaurants.Application.Commands.Users.UpdateUserRoles;
+namespace Restaurants.Application.Commands.Users.UnAssignToRole;
 
 public class UnAssignRoleFromUserCommandHandler : IRequestHandler<UnAssignRoleFromUserCommand>
 {

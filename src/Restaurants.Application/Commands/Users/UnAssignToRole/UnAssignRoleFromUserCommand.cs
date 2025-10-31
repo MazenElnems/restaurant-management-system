@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Restaurants.Application.Commands.Users.UpdateUserRoles;
+namespace Restaurants.Application.Commands.Users.UnAssignToRole;
 
 public class UnAssignRoleFromUserCommand : IRequest
 {

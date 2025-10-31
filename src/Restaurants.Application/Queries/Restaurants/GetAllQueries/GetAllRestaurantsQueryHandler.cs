@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Domain.Interfaces;
 
-namespace Restaurants.Application.Queries.Restaurants.GetRestaurantQueries
+namespace Restaurants.Application.Queries.Restaurants.GetAllQueries
 {
     public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQuery, List<GetAllRestaurantsDto>>
     {

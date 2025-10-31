@@ -5,6 +5,7 @@ using Restaurants.Application.Commands.Categories.CreateCategory;
 using Restaurants.Application.Commands.Categories.DeleteCategory;
 using Restaurants.Application.Commands.Categories.UpdateCategory;
 using Restaurants.Application.DTOs.Categories;
+using Restaurants.Application.Queries.Categories.GetAllQueries;
 using Restaurants.Application.Queries.Categories.GetCategories;
 using Restaurants.Domain.Constants;
 

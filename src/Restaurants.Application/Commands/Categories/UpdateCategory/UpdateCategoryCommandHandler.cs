@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Application.DTOs.Categories;
-using Restaurants.Application.Queries.Categories.GetCategories;
+using Restaurants.Application.Queries.Categories.GetAllQueries;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Enums;
 using Restaurants.Domain.Interfaces;

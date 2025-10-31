@@ -7,7 +7,7 @@ using Restaurants.Domain.Entities;
 using Restaurants.Domain.Enums;
 using Restaurants.Domain.Interfaces;
 
-namespace Restaurants.Application.Queries.Dishes.GetDishesQueries;
+namespace Restaurants.Application.Queries.Dishes.GetByIdQueries;
 
 public class GetDishByIdQueryHandler : IRequestHandler<GetDishByIdQuery, GetDishDto>
 {

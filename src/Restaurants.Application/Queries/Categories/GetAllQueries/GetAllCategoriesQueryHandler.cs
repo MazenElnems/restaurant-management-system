@@ -7,7 +7,7 @@ using Restaurants.Domain.Entities;
 using Restaurants.Domain.Enums;
 using Restaurants.Domain.Interfaces;
 
-namespace Restaurants.Application.Queries.Categories.GetCategories;
+namespace Restaurants.Application.Queries.Categories.GetAllQueries;
 
 public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, List<GetAllCategoriesDto>>
 {

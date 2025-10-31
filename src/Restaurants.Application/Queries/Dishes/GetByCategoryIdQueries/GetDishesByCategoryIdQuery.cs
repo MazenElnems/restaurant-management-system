@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Restaurants.Application.DTOs.Dishes;
 
-namespace Restaurants.Application.Queries.Dishes.GetDishesQueries;
+namespace Restaurants.Application.Queries.Dishes.GetByCategoryIdQueries;
 
 public class GetDishesByCategoryIdQuery(int restaurantId, int categoryId) : IRequest<List<GetAllDishesDto>>
 {
