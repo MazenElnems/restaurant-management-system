@@ -26,7 +26,7 @@ public class RestaurantsController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Owner}", Policy = AuthorizationPolicies.OwnedAtLeast2Restaurant)]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetAllRestaurantsDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<GetAllRestaurantsDto>>> GetAll()
