@@ -7,8 +7,19 @@ admins
 ]
 
 Owners
-{
-  "email": "mohamed@gmail.com",
-  "password": "Mohamed.Password12!"
-}
+[
+ {
+   "email": "mohamed@gmail.com",
+   "password": "Mohamed.Password12!"
+ },
+ {
+   "email": "Owner2@gmail.com",
+   "password": "Owner.password12!"
+ },
+ {
+   "email": "mohamed@gmail.com",
+   "password": "mohamed.password12!"
+ }
+]
+
 
