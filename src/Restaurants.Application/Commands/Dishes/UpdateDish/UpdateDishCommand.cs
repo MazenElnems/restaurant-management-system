@@ -17,8 +17,6 @@ public class UpdateDishCommand : IRequest
     public decimal Price { get; set; }
     public int? KiloCalories { get; set; }
     public bool IsAvailable { get; set; }
-    [Required]
-    public int CategoryId { get; set; }
     [JsonIgnore]
     public int RestaurantId { get; set; }
 }

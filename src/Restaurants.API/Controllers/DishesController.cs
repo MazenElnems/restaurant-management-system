@@ -47,8 +47,10 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPut("{id}/move")]
-        public async Task<IActionResult> MoveToCategory(MoveToCategoryCommand command)
+        public async Task<IActionResult> MoveToCategory(int restaurantId, int id,MoveToCategoryCommand command)
         {
+            command.DishId = id;
+            command.RestaurantId = restaurantId;
             await _mediator.Send(command);
             return NoContent();
         }

@@ -45,4 +45,13 @@ public class DishesRepository : IDishesRepository
         _db.Dishes.Remove(dish);
         return await CommitAsync();
     }
+
+    public async Task<Dish?> GetByRestaurantIdAsync(int id, int restaurantId)
+    {
+        return await _db.Restaurants
+            .Where(r => r.Id == restaurantId)
+            .SelectMany(r => r.Categories)
+            .SelectMany(c => c.Dishes)
+            .FirstOrDefaultAsync(d => d.Id == id);
+    }
 }

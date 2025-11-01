@@ -36,7 +36,10 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
                 throw new UnAuthorizedException("You are not authorized to update category of this restaurant.");
 
             var category = await _categoriesRepository.GetByIdAsync(request.Id)
-                ?? throw new ResourseNotFoundException(nameof(Category), request.Id.ToString()); ;
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if(category.RestaurantId != request.RestaurantId)
+                throw new UnAuthorizedException("Category does not belong to this restaurant.");
 
             _logger.LogInformation("Updating category with id {CategoryId}", request.Id);
 

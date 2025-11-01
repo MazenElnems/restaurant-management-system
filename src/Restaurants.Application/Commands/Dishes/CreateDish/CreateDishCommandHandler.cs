@@ -48,7 +48,7 @@ public class CreateDishCommandHandler : IRequestHandler<CreateDishCommand, int>
             category.Dishes.Add(dish);
             await _categoriesRepository.CommitAsync();
 
-            _logger.LogInformation("New dish created successfully {@Dish}", dish);
+            _logger.LogInformation("New dish created successfully with ID: {DishId}", dish.Id);
 
             return dish.Id;
         }

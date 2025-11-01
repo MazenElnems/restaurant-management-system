@@ -39,7 +39,7 @@ public class GetDishByIdQueryHandler : IRequestHandler<GetDishByIdQuery, GetDish
 
             _logger.LogInformation("Fetching dish with id {DishId} for restaurant {RestaurantId}", request.Id, request.RestaurantId);
 
-            var dish = await _dishesRepository.GetByIdAsync(request.Id)
+            var dish = await _dishesRepository.GetByRestaurantIdAsync(request.Id, request.RestaurantId)
                 ?? throw new ResourseNotFoundException(nameof(Dish), request.Id.ToString());
 
             var dto = _mapper.Map<GetDishDto>(dish);

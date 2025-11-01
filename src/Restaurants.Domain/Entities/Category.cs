@@ -10,6 +10,6 @@ public class Category
     public int RestaurantId { get; set; }
 
     // Navigations
-    public Restaurant Restaurant { get; set; }
-    public List<Dish> Dishes { get; set; } = new List<Dish>();
+    public virtual Restaurant Restaurant { get; set; }
+    public virtual List<Dish> Dishes { get; set; } = new List<Dish>();
 }

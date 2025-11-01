@@ -14,6 +14,6 @@ public class Restaurant
     public int OwnerId { get; set; }
 
     // Navigations
-    public Owner Owner { get; set; }
-    public List<Category> Categories { get; set; } = new List<Category>();
+    public virtual Owner Owner { get; set; }
+    public virtual List<Category> Categories { get; set; } = new List<Category>();
 }
