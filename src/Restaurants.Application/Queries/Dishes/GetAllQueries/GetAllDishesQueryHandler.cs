@@ -42,7 +42,6 @@ public class GetAllDishesQueryHandler : IRequestHandler<GetAllDishesQuery, List<
             var dto = _mapper.Map<List<GetAllDishesDto>>(dishes);
             return dto;
         }
-
         catch(ResourseNotFoundException ex)
         {
             throw;

@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<RestaurantDbContext>(options => 
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .UseLazyLoadingProxies()
                    .EnableSensitiveDataLogging();
         });
         services.AddScoped<IDataSeeder, DataSeeder>();

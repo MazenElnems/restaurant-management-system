@@ -34,14 +34,8 @@ public class UpdateDishCommandHandler : IRequestHandler<UpdateDishCommand>
             if(!_authorizationService.Authorize(restaurant, RestaurantOperation.Update))
                 throw new UnAuthorizedException("You are not authorized to update dish of this restaurant.");
 
-            var dish = await _dishesRepository.GetByIdAsync(request.Id)
+            var dish = await _dishesRepository.GetByRestaurantIdAsync(request.Id, request.RestaurantId)
                 ?? throw new ResourseNotFoundException(nameof(Dish), request.Id.ToString());
-
-            var category = await _categoriesRepository.GetByIdAsync(request.CategoryId)
-                ?? throw new ResourseNotFoundException(nameof(Category), request.CategoryId.ToString());
-
-            if(category.RestaurantId != request.RestaurantId)
-                throw new UnAuthorizedException("Category does not belong to this restaurant.");
 
             _logger.LogInformation("Updating dish with id {DishId}", request.Id);
 
@@ -50,7 +44,6 @@ public class UpdateDishCommandHandler : IRequestHandler<UpdateDishCommand>
             dish.Price = request.Price;
             dish.KiloCalories = request.KiloCalories;
             dish.IsAvailable = request.IsAvailable;
-            dish.CategoryId = request.CategoryId;
 
             await _dishesRepository.CommitAsync();
             _logger.LogInformation("Dish with id {DishId} updated successfully", request.Id);

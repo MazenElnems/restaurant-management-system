@@ -38,8 +38,11 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
 
             _logger.LogInformation("Getting category by id {CategoryId} for restaurant {RestaurantId}", request.Id, request.RestaurantId);
 
-            var category = await _categoriesRepository.GetByIdWithDishesAsync(request.Id)
-                ?? throw new ResourseNotFoundException(nameof(Category), request.Id.ToString());
+            var category = await _categoriesRepository.GetByIdAsync(request.Id)
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if(category.RestaurantId !=  request.RestaurantId)
+                throw new UnAuthorizedException("Category does not belong to this restaurant.");
 
             var dto = _mapper.Map<GetCategoryByIdDto>(category); 
             return dto;

@@ -40,7 +40,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             restaurant.Categories.Add(category);
             await _restaurantsRepository.CommitAsync();
 
-            _logger.LogInformation("New category created successfully {@Category}", category);
+            _logger.LogInformation("New category created successfully with ID: {CategoryId}", category.Id);
 
             return category.Id;
         }

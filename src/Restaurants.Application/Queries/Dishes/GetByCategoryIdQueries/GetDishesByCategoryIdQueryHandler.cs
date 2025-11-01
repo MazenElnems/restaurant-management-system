@@ -39,12 +39,15 @@ public class GetDishesByCategoryIdQueryHandler : IRequestHandler<GetDishesByCate
             if (!_authorizationService.Authorize(restaurant, RestaurantOperation.Read))
                 throw new UnAuthorizedException("You are not authorized to access this restaurant.");
 
-            if (!await _categoriesRepository.Exists(request.CategoryId))
-                throw new ResourseNotFoundException(nameof(Category), request.CategoryId.ToString());
+            var category = await _categoriesRepository.GetByIdAsync(request.CategoryId)
+                ?? throw new ResourseNotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
+
+            if(category.RestaurantId != request.RestaurantId)
+                throw new UnAuthorizedException("Category does not belong to this restaurant.");
 
             _logger.LogInformation("Fetching dishes for category {CategoryId} in restaurant {RestaurantId}.", request.CategoryId, request.RestaurantId);
 
-            var dishes = await _dishesRepository.GetByCategoryIdAsync(request.CategoryId);
+            var dishes = category.Dishes;   // Load Navigation Property By Lazy Loading
             var dto = _mapper.Map<List<GetAllDishesDto>>(dishes);
             return dto;
         }

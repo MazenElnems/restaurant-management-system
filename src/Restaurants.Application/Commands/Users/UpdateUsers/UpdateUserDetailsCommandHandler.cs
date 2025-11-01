@@ -27,7 +27,7 @@ public class UpdateUserDetailsCommandHandler : IRequestHandler<UpdateUserDetails
             var currentUser = _userContext.GetCurrentUser()
                 ?? throw new UnAuthorizedException();
 
-            _logger.LogInformation("Updating User with ID: {UserId} Details with {@request}", currentUser.Id, request);
+            _logger.LogInformation("Updating User with ID: {UserId} Details", currentUser.Id);
 
             var user = await _userStore.FindByIdAsync(currentUser.Id.ToString(), cancellationToken)
                 ?? throw new ResourseNotFoundException(nameof(ApplicationUser), currentUser.Id.ToString());

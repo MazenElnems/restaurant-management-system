@@ -7,9 +7,9 @@ namespace Restaurants.Infrastructure.Data;
 
 public class RestaurantDbContext : IdentityDbContext<ApplicationUser,IdentityRole<int>,int>
 {
-    public DbSet<Restaurant> Restaurants { get; set; }
-    public DbSet<Dish> Dishes { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    public virtual DbSet<Restaurant> Restaurants { get; set; }
+    public virtual DbSet<Dish> Dishes { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
 
     public RestaurantDbContext(DbContextOptions<RestaurantDbContext> options)
         :base(options)

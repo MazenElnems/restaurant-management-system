@@ -32,13 +32,13 @@ public class DeleteDishCommandHandler : IRequestHandler<DeleteDishCommand>
             if(!_authorizationService.Authorize(restaurant, RestaurantOperation.Update))
                 throw new UnAuthorizedException("You are not authorized to delete dish from this restaurant.");
 
-            var dish = await _dishesRepository.GetByIdAsync(request.Id)
+            var dish = await _dishesRepository.GetByRestaurantIdAsync(request.Id, request.RestaurantId)
                 ?? throw new ResourseNotFoundException(nameof(Dish), request.Id.ToString());
 
-            _logger.LogInformation("Deleting Dish: {@Dish}", dish);
+            _logger.LogInformation("Deleting Dish with ID: {DishId}", dish.Id);
 
             await _dishesRepository.DeleteAsync(dish);
-            _logger.LogInformation("Dish: {@Dish} deleted successfully.", dish);
+            _logger.LogInformation("Dish with ID: {DishId} deleted successfully.", dish.Id);
         }
         catch(UnAuthorizedException ex)
         {

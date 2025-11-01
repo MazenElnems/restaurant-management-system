@@ -12,5 +12,5 @@ public class Dish
     public int CategoryId { get; set; }
 
     // Navigations
-    public Category Category { get; set; }
+    public virtual Category Category { get; set; }
 }
