@@ -9,6 +9,7 @@ public class Restaurant
     public string? ContactEmail { get; set; }
     public string? ContactNumber { get; set; }
     public Address Address { get; set; }
+    public DateTime CreatedAt { get; set; } 
 
     // Foreign Keys
     public int OwnerId { get; set; }

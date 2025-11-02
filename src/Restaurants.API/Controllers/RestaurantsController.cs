@@ -5,6 +5,7 @@ using Restaurants.API.Authorization.Constants;
 using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.Commands.Restaurants.DeleteCommands;
 using Restaurants.Application.Commands.Restaurants.UpdateCommands;
+using Restaurants.Application.DTOs.Common;
 using Restaurants.Application.DTOs.Restaurants;
 using Restaurants.Application.Queries.Restaurants.GetAllQueries;
 using Restaurants.Application.Queries.Restaurants.GetRestaurantQueries;
@@ -29,10 +30,10 @@ public class RestaurantsController : ControllerBase
     [Authorize(Roles = UserRoles.Admin)]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetAllRestaurantsDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<GetAllRestaurantsDto>>> GetAll()
+    public async Task<ActionResult<PagedResult<GetAllRestaurantsDto>>> GetAll([FromQuery] GetAllRestaurantsQuery query)
     {
-        var restaurants = await _mediator.Send(new GetAllRestaurantsQuery());
-        return restaurants;
+        var page = await _mediator.Send(query);
+        return page;
     } 
 
     [HttpGet("{id}")]

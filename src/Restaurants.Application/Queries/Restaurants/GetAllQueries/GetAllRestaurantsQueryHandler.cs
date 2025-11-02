@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Restaurants.Application.DTOs.Common;
 using Restaurants.Application.DTOs.Restaurants;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Interfaces;
 
 namespace Restaurants.Application.Queries.Restaurants.GetAllQueries
 {
-    public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQuery, List<GetAllRestaurantsDto>>
+    public class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurantsQuery, PagedResult<GetAllRestaurantsDto>>
     {
         private readonly IRestaurantsRepository _restaurantsRepository;
         private readonly IMapper _mapper;
@@ -19,13 +21,18 @@ namespace Restaurants.Application.Queries.Restaurants.GetAllQueries
             _logger = logger;
         }
 
-        public async Task<List<GetAllRestaurantsDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<GetAllRestaurantsDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var restaurants = await _restaurantsRepository.GetAllAsync();
-                var dto = _mapper.Map<List<GetAllRestaurantsDto>>(restaurants);
-                return dto;
+                bool sortAscending = request.SortOrder == SortOrderOptions.Ascending ? true : false;
+                var sortByOption = string.IsNullOrEmpty(request.SortBy) ? RestaurantSortByOptions.CreatedBy : request.SortBy;
+
+                var (restaurant, rowsCount) = await _restaurantsRepository.GetPagedAsync(request.SearchString, sortByOption, request.PageNumber, request.PageSize, sortAscending);
+
+                var dto = _mapper.Map<List<GetAllRestaurantsDto>>(restaurant);
+
+                return new PagedResult<GetAllRestaurantsDto>(dto, rowsCount, request.PageNumber, request.PageSize);
             }
             catch (Exception ex)
             {
