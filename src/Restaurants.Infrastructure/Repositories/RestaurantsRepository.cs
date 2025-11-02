@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
 using Restaurants.Infrastructure.Data;
@@ -21,13 +22,6 @@ internal class RestaurantsRepository : IRestaurantsRepository
         return entity.Id;
     }
 
-    public async Task<List<Restaurant>> GetAllAsync()
-    {
-        return await _db.Restaurants
-            .AsNoTracking()
-            .ToListAsync();
-    }
-
     public async Task<Restaurant?> GetByIdAsync(int id)
     {
         return await _db.Restaurants
@@ -48,5 +42,35 @@ internal class RestaurantsRepository : IRestaurantsRepository
     public async Task<bool> Exists(int id)
     {
         return await _db.Restaurants.AnyAsync(r => r.Id == id);
+    }
+
+    public async Task<(IEnumerable<Restaurant>,int)> GetPagedAsync(string? searchString, string sortBy, int pageNumber, int pageSize, bool ascending = false)
+    {
+        IQueryable<Restaurant> query = _db.Restaurants;
+
+        // Filter
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            var searchStringLower = searchString.ToLower();
+            query = query.Where(r => r.Name.ToLower().Contains(searchStringLower)
+                                || (r.Description != null && r.Description.ToLower().Contains(searchStringLower)));
+        }
+
+        int rowsCount = await query.CountAsync();
+
+        // Sorting
+        query = sortBy switch
+        {
+            RestaurantSortByOptions.Name => ascending ? query.OrderBy(r => r.Name) : query.OrderByDescending(r => r.Name),
+            RestaurantSortByOptions.CreatedBy => ascending ? query.OrderBy(r => r.CreatedAt) : query.OrderByDescending(r => r.CreatedAt),
+            _ => query.OrderByDescending(r => r.CreatedAt)
+        };
+
+        // Pagination
+        var result = await query.Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize)
+                     .ToListAsync();
+
+        return (result, rowsCount);
     }
 }
