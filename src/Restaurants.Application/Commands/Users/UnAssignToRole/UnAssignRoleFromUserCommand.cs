@@ -8,6 +8,5 @@ public class UnAssignRoleFromUserCommand : IRequest
 {
     [JsonIgnore]
     public int Id { get; set; }
-    [Required]
     public string Role { get; set; }
 }

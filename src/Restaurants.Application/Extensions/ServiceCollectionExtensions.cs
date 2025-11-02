@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Commands.Categories.CreateCategory;
 using Restaurants.Application.Commands.Dishes.CreateDish;
-using Restaurants.Application.Commands.Restaurants.CraeteCommands;
+using Restaurants.Application.Commands.Restaurants.CreateCommands;
 using Restaurants.Application.DTOs.Categories;
 using Restaurants.Application.DTOs.Dishes;
 using Restaurants.Application.DTOs.Restaurants;
@@ -15,6 +17,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         var assembly = typeof(ServiceCollectionExtensions).Assembly;
+
+        // add fluent validation
+        services.AddValidatorsFromAssembly(assembly)
+            .AddFluentValidationAutoValidation();
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddScoped<IUserContext, UserContext>();
