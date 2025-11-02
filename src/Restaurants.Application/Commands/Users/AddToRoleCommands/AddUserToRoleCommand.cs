@@ -4,10 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Restaurants.Application.Commands.Users.AddToRoleCommands;
 
-public class AddUserToRuleCommand : IRequest
+public class AddUserToRoleCommand : IRequest
 {
     [JsonIgnore]
     public int Id { get; set; }
-    [Required]
     public string Role { get; set; }
 }

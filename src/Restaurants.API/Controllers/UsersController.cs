@@ -34,7 +34,7 @@ namespace Restaurants.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> AddToRole(int id, AddUserToRuleCommand command)
+        public async Task<IActionResult> AddToRole(int id, AddUserToRoleCommand command)
         { 
             command.Id = id;
             await _mediator.Send(command);

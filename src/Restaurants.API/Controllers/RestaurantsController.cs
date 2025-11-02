@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.API.Authorization.Constants;
-using Restaurants.Application.Commands.Restaurants.CraeteCommands;
+using Restaurants.Application.Commands.Restaurants.CreateCommands;
 using Restaurants.Application.Commands.Restaurants.DeleteCommands;
 using Restaurants.Application.Commands.Restaurants.UpdateCommands;
 using Restaurants.Application.DTOs.Common;

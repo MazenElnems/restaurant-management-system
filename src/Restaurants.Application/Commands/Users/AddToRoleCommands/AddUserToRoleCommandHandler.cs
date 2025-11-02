@@ -6,20 +6,20 @@ using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Commands.Users.AddToRoleCommands;
 
-public class AddUserToRuleCommandHandler : IRequestHandler<AddUserToRuleCommand>
+public class AddUserToRoleCommandHandler : IRequestHandler<AddUserToRoleCommand>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole<int>> _roleManager;
-    private readonly ILogger<AddUserToRuleCommandHandler> _logger;
+    private readonly ILogger<AddUserToRoleCommandHandler> _logger;
 
-    public AddUserToRuleCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, ILogger<AddUserToRuleCommandHandler> logger)
+    public AddUserToRoleCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, ILogger<AddUserToRoleCommandHandler> logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _logger = logger;
     }
 
-    public async Task Handle(AddUserToRuleCommand request, CancellationToken cancellationToken)
+    public async Task Handle(AddUserToRoleCommand request, CancellationToken cancellationToken)
     {
         try
         {

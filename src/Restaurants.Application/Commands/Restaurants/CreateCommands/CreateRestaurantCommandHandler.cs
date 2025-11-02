@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Restaurants.Application.Commands.Restaurants.CraeteCommands;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Application.Users;
 using Restaurants.Domain.Entities;
