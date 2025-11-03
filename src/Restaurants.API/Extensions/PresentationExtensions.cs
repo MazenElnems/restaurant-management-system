@@ -20,7 +20,9 @@ public static class PresentationExtensions
         // add authentication
         services.AddAuthentication();
 
+        // add requirement authorization handlers
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementAuthorizationHandler>();
+        services.AddScoped<IAuthorizationHandler, MinimumOwnedRestaurantsRequirementAuthorizationHandler>();
 
         // identity 
         services.AddIdentityApiEndpoints<ApplicationUser>(cfg =>
@@ -77,6 +79,11 @@ public static class PresentationExtensions
             options.AddPolicy(AuthorizationPolicies.AtLeast20YearsOldPolicy, policy =>
             {
                 policy.AddRequirements(new MinimumAgeRequirement(20));
+            });
+
+            options.AddPolicy(AuthorizationPolicies.OwnedAtLeast2Restaurant, policy =>
+            {
+                policy.AddRequirements(new MinimumOwnedRestaurantsRequirement(2));
             });
         });
 
