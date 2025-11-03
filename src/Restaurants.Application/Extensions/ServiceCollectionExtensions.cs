@@ -25,21 +25,15 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddScoped<IUserContext, UserContext>();
         services.AddHttpContextAccessor();
+        services.AddAutoMapper(cfg => { }, assembly);
         services.AddAutoMapper(conf =>
         {
             conf.CreateMap<Category, GetAllCategoriesDto>();
 
-            conf.CreateMap<Dish, GetDishDto>();
-
             conf.CreateMap<CreateCategoryCommand, Category>();
-
-            conf.CreateMap<CreateDishCommand, Dish>();
-            
-            conf.CreateMap<Dish, GetAllDishesDto>();
 
             conf.CreateMap<Category, GetCategoryByIdDto>()
                 .ForMember(dto => dto.DishIds, opt => opt.MapFrom(src => src.Dishes.Select(d => d.Id).ToList()));
-
 
             conf.CreateMap<Restaurant, GetRestaurantByIdDto>()
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Address.City))

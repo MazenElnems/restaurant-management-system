@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.CustomExceptions;
 using Restaurants.Domain.Entities;
@@ -13,6 +12,7 @@ public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCo
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly ILogger<UpdateRestaurantCommandHandler> _logger;
     private readonly IRestaurantAuthorizationService _authorizationService;
+
     public UpdateRestaurantCommandHandler(IRestaurantsRepository restaurantsRepository, ILogger<UpdateRestaurantCommandHandler> logger, IRestaurantAuthorizationService authorizationService)
     {
         _restaurantsRepository = restaurantsRepository;
