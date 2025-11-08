@@ -2,12 +2,12 @@
 
 namespace Restaurants.API.Middlewares;
 
-public class CustomLogginMiddleware
+public class CustomLoggingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<CustomLogginMiddleware> _logger;
+    private readonly ILogger<CustomLoggingMiddleware> _logger;
 
-    public CustomLogginMiddleware(RequestDelegate next, ILogger<CustomLogginMiddleware> logger)
+    public CustomLoggingMiddleware(RequestDelegate next, ILogger<CustomLoggingMiddleware> logger)
     {
         _next = next;
         _logger = logger;
@@ -34,6 +34,6 @@ public static class CustomLogginMiddlewareExtensions
 {
     public static IApplicationBuilder UseCustomLogginMiddleware(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<CustomLogginMiddleware>();
+        return builder.UseMiddleware<CustomLoggingMiddleware>();
     }
 }

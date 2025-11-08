@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Restaurants.Infrastructure\Restaurants.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Restaurants.API.IntegrationTests" />
+	</ItemGroup>
+	
 </Project>

@@ -50,3 +50,7 @@ Content-Type : application/json
   "email":"owner@gmail.com",
   "password":"Owner.Password12!"
 }
+GET {{Restaurants.API_HostAddress}}/api/restaurants
+Authorization: Bearer {{$bearerToken}}
+
+###

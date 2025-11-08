@@ -10,4 +10,5 @@ public interface IRestaurantsRepository
     Task<int> CommitAsync();
     Task<int> DeleteAsync(Restaurant entity);
     Task<bool> Exists(int id);
+    Task<int> GetNumberOfOwnedRestaurants(int ownerId);
 }

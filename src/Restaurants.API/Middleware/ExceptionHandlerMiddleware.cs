@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Restaurants.Application.CustomExceptions;
+﻿using Restaurants.Application.CustomExceptions;
 
 namespace Restaurants.API.Middleware;
 
@@ -26,16 +25,16 @@ public class ExceptionHandlerMiddleware
             httpContext.Response.StatusCode = 403;
             await httpContext.Response.WriteAsync(ex.Message);
         }
-        catch(InvalidOperationException ex)
-        {
-            _logger.LogWarning(ex,"InvalidOperationException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
-            httpContext.Response.StatusCode = 400;
-            await httpContext.Response.WriteAsync(ex.Message);
-        }
         catch (ResourseNotFoundException ex)
         {
             _logger.LogWarning(ex,"ResourseNotFoundException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
             httpContext.Response.StatusCode = 404;
+            await httpContext.Response.WriteAsync(ex.Message);
+        }
+        catch(UnAuthenticatedException ex)
+        {
+            _logger.LogError(ex, "UnAuthenticatedException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
+            httpContext.Response.StatusCode = 401;
             await httpContext.Response.WriteAsync(ex.Message);
         }
         catch(Exception ex)
