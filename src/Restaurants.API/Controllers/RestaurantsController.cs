@@ -27,9 +27,13 @@ public class RestaurantsController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Owner}", Policy = AuthorizationPolicies.OwnedAtLeast2Restaurant)]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetAllRestaurantsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+    [Authorize]
+    [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Owner}", Policy = AuthorizationPolicies.OwnedAtLeast2Restaurant)]
     public async Task<ActionResult<PagedResult<GetAllRestaurantsDto>>> GetAll([FromQuery] GetAllRestaurantsQuery query)
     {
         var page = await _mediator.Send(query);
@@ -38,6 +42,8 @@ public class RestaurantsController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(GetRestaurantByIdDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound, "text/plain")]
     public async Task<ActionResult<GetRestaurantByIdDto>> GetById(int id)
     {

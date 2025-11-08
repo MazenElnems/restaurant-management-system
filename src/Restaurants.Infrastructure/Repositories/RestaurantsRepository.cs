@@ -73,4 +73,9 @@ internal class RestaurantsRepository : IRestaurantsRepository
 
         return (result, rowsCount);
     }
+
+    public async Task<int> GetNumberOfOwnedRestaurants(int ownerId)
+    {
+        return await _db.Restaurants.CountAsync(r => r.OwnerId == ownerId);
+    }
 }

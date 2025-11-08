@@ -27,9 +27,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Seed Default Restaurants into DB
-using var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-await seeder.SeedAsync();
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    await seeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 
@@ -56,3 +59,5 @@ app .MapGroup("api/Identity")
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -13,10 +13,12 @@ public class GetAllRestaurantsQueryValidator : AbstractValidator<GetAllRestauran
     {
         RuleFor(q => q.SortOrder)
             .Must(s => allowedSortOrderOption.Contains(s))
+            .When(q => !string.IsNullOrEmpty(q.SortOrder))
             .WithMessage($"SortOrder must be one of the following options ({string.Join(",",allowedSortOrderOption)})");
 
         RuleFor(q => q.SortBy)
             .Must(s => allowedSortByOptions.Contains(s))
+            .When(q => !string.IsNullOrEmpty(q.SortBy))
             .WithMessage($"SortBy must be one of the following options ({string.Join(",",allowedSortByOptions)})");
 
         RuleFor(q => q.PageSize)

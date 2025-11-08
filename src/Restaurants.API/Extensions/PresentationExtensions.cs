@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Restaurants.API.Authorization.Claims;
 using Restaurants.API.Authorization.Constants;
 using Restaurants.API.Authorization.Requirements;
+using Restaurants.API.Authorization.Requirements.RequirementHandler;
 using Restaurants.API.Authorization.Services;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
