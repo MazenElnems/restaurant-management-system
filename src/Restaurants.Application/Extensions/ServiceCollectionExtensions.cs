@@ -18,13 +18,16 @@ public static class ServiceCollectionExtensions
     {
         var assembly = typeof(ServiceCollectionExtensions).Assembly;
 
-        // add fluent validation
         services.AddValidatorsFromAssembly(assembly)
             .AddFluentValidationAutoValidation();
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddScoped<IUserContext, UserContext>();
         services.AddHttpContextAccessor();
+        services.AddMemoryCache(options =>
+        {
+            options.SizeLimit = 1024;
+        });
         services.AddAutoMapper(cfg => { }, assembly);
         services.AddAutoMapper(conf =>
         {
