@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Restaurants.Application.DTOs.Common;
@@ -16,6 +17,7 @@ public class GetAllRestaurantsQueryHandlerTest
     private readonly Mock<IRestaurantsRepository> repositoryMock;
     private readonly Mock<IMapper> mapperMock;
     private readonly Mock<ILogger<GetAllRestaurantsQueryHandler>> loggerMock;
+    private readonly Mock<IMemoryCache> memoryCacheMock;
     private readonly GetAllRestaurantsQueryHandler handler;
 
     public GetAllRestaurantsQueryHandlerTest()
@@ -23,7 +25,8 @@ public class GetAllRestaurantsQueryHandlerTest
         repositoryMock = new();
         mapperMock = new();
         loggerMock = new();
-        handler = new(repositoryMock.Object,mapperMock.Object,loggerMock.Object);
+        memoryCacheMock = new();
+        handler = new(repositoryMock.Object,mapperMock.Object,loggerMock.Object, memoryCacheMock.Object);
     }
 
     [Theory]

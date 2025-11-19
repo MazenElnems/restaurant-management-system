@@ -9,6 +9,8 @@ using Restaurants.API.Authorization.Services;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
 using Restaurants.Infrastructure.Data;
+using Restaurants.Infrastructure.Services.DbMigrator.Interfaces;
+using Restaurants.Infrastructure.Services.Seeders.Interfaces;
 
 namespace Restaurants.API.Extensions;
 
@@ -91,5 +93,15 @@ public static class PresentationExtensions
         services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
 
         return services;
+    }
+
+    public static void InitializeDevelopmentDatabase(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var migrator = scope.ServiceProvider.GetRequiredService<IDbMigrator>();
+        var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+
+        migrator.Migrate();
+        seeder.Seed();
     }
 }

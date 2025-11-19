@@ -2,9 +2,9 @@
 using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Data;
-using Restaurants.Infrastructure.Seeders.Interfaces;
+using Restaurants.Infrastructure.Services.Seeders.Interfaces;
 
-namespace Restaurants.Infrastructure.Seeders;
+namespace Restaurants.Infrastructure.Services.Seeders;
 
 internal class DataSeeder : IDataSeeder
 {
@@ -15,22 +15,22 @@ internal class DataSeeder : IDataSeeder
         _db = db;
     }
 
-    public async Task SeedAsync()
+    public void Seed()
     {
-        if (await _db.Database.CanConnectAsync())
+        if (_db.Database.CanConnect())
         {
             if (!_db.Restaurants.Any())
             {
                 var restaurants = GetRestaurants();
                 _db.Restaurants.AddRange(restaurants);
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
 
             if(!_db.Roles.Any())
             {
                 var roles = GetRoles();
                 _db.Roles.AddRange(roles);
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
         }
     }
