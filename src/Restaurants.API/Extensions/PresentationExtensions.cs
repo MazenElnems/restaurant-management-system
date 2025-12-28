@@ -23,6 +23,13 @@ public static class PresentationExtensions
         // add authentication
         services.AddAuthentication();
 
+        // add authentication
+        //services.AddAuthentication(options =>
+        //{
+        //    options.DefaultAuthenticateScheme =
+        //})
+        //    .AddJwtBearer
+
         // add requirement authorization handlers
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementAuthorizationHandler>();
         services.AddScoped<IAuthorizationHandler, MinimumOwnedRestaurantsRequirementAuthorizationHandler>();
