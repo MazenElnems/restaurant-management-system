@@ -1,4 +1,4 @@
-﻿namespace Restaurants.API.Authorization.Claims;
+﻿namespace Restaurants.Domain.Common.Claims;
 
 public static class DefaultUserClaims
 {

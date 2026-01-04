@@ -2,11 +2,11 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Commands.Categories.CreateCategory;
-using Restaurants.Application.Commands.Dishes.CreateDish;
 using Restaurants.Application.Commands.Restaurants.CreateCommands;
 using Restaurants.Application.DTOs.Categories;
-using Restaurants.Application.DTOs.Dishes;
 using Restaurants.Application.DTOs.Restaurants;
+using Restaurants.Application.Services;
+using Restaurants.Application.Services.Interfaces;
 using Restaurants.Application.Users;
 using Restaurants.Domain.Entities;
 
@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddScoped<IUserContext, UserContext>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddHttpContextAccessor();
         services.AddMemoryCache(options =>
         {

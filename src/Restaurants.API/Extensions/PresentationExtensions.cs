@@ -1,34 +1,59 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Restaurants.API.Authorization.Claims;
 using Restaurants.API.Authorization.Constants;
 using Restaurants.API.Authorization.Requirements;
 using Restaurants.API.Authorization.Requirements.RequirementHandler;
 using Restaurants.API.Authorization.Services;
+using Restaurants.Application.Options;
+using Restaurants.Domain.Common.Claims;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
 using Restaurants.Infrastructure.Data;
 using Restaurants.Infrastructure.Services.DbMigrator.Interfaces;
 using Restaurants.Infrastructure.Services.Seeders.Interfaces;
+using System.Text;
 
 namespace Restaurants.API.Extensions;
 
 public static class PresentationExtensions
 {
-    public static IServiceCollection AddPresentationServices(this IServiceCollection services)
+    public static IServiceCollection AddPresentationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
 
         // add authentication
         services.AddAuthentication();
 
+
         // add authentication
-        //services.AddAuthentication(options =>
-        //{
-        //    options.DefaultAuthenticateScheme =
-        //})
-        //    .AddJwtBearer
+        var jwtOptions = configuration.GetRequiredSection("JWT").Get<JWTOptions>();
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = true;    // require https for jwt validation
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SignInKey)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
         // add requirement authorization handlers
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementAuthorizationHandler>();
