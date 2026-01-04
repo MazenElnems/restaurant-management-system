@@ -1,4 +1,5 @@
 ﻿using Restaurants.Application.CustomExceptions;
+using Restaurants.Domain.Common;
 
 namespace Restaurants.API.Middleware;
 
@@ -36,6 +37,12 @@ public class ExceptionHandlerMiddleware
             _logger.LogError(ex, "UnAuthenticatedException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
             httpContext.Response.StatusCode = 401;
             await httpContext.Response.WriteAsync(ex.Message);
+        }
+        catch(UserRegisterationException ex)
+        {
+            _logger.LogError(ex, "UserRegisterationException caught in exception handler middleware: {ExceptionMessage}", ex.Message);
+            httpContext.Response.StatusCode = 400;
+            await httpContext.Response.WriteAsJsonAsync(new {Errors = ex.Message.Split(',') });
         }
         catch(Exception ex)
         {

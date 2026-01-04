@@ -2,6 +2,7 @@ using Restaurants.API.Extensions;
 using Restaurants.API.Middleware;
 using Restaurants.API.Middlewares;
 using Restaurants.Application.Extensions;
+using Restaurants.Application.Options;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Extensions;
 using Serilog;
@@ -10,9 +11,13 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    // Configure Options 
+
+    builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
+
     // Add services to the container.
 
-    builder.Services.AddPresentationServices();
+    builder.Services.AddPresentationServices(builder.Configuration);
 
     builder.Services.AddInfrastructureServices(builder.Configuration);
 
