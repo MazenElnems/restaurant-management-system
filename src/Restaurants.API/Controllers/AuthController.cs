@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
         if (!result.IsSuccess)
             return Unauthorized(new
             {
-                Errors = new[] { result.Error }
+                Errors = new[] { result.Error?.Description }
             });
 
         return Ok(new
@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
         if (!result.IsSuccess)
             return BadRequest(new
             {
-                Errors = new [] { result.Error }
+                Errors = new [] { result.Error?.Description }
             });
 
         return Ok(new
