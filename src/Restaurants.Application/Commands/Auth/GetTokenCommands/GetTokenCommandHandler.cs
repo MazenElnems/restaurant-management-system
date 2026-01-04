@@ -44,8 +44,6 @@ public class GetTokenCommandHandler : IRequestHandler<GetTokenCommand, Result<Au
         {
             new (ClaimTypes.NameIdentifier, user.Id.ToString()),
             new (ClaimTypes.Email, user.Email),
-            new (DefaultUserClaims.DateOfBirth, user.DateOfBirth.ToString()),
-            new (DefaultUserClaims.Nationality, user.Nationality)
         }.Union(userClaims)
          .Union(roleClaims);
 
